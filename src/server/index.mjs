@@ -1,9 +1,9 @@
 import express from "express";
-import WebSocket, { WebSocketServer } from "ws";
+import WebSocket from "ws";
 import schedule from "node-schedule";
 import { parse, stringify, TypeMap } from "./util.mjs";
 
-const wss = new WebSocketServer({ port: 8080 });
+const wss = new WebSocket.WebSocketServer({ port: 8080 });
 const app = express();
 
 let peopleNum = 0; // 在线人数
@@ -172,7 +172,7 @@ const scheduleCronstyle = () => {
       data: 'timed task',
       code: 0,
     });
-  }); 
+  });
 }
 scheduleCronstyle();
 
@@ -184,7 +184,7 @@ wss.on('close', () => {
   console.log('disconnected');
 });
 
-wss.on('connection', (ws) => { 
+wss.on('connection', (ws) => {
   ws.on('message', (message) => {
     const { type, data } = parse(message);
 
